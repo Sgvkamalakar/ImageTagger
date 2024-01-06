@@ -13,15 +13,12 @@ if uploaded_file is not None:
         if API_KEY.strip() == '':
             st.error('Enter a valid API key')
         else:
-            file_path = os.path.join("static", uploaded_file.name)
+            file_path = os.path.join("temp", uploaded_file.name)
             with open(file_path, "wb") as f:
                 f.write(uploaded_file.getvalue())
             img = Image.open(file_path)
             try:
                 genai.configure(api_key=API_KEY)
-                resized_img = img.resize((600, 420))
-                resized_path = os.path.join("static", f"resized/resized_{uploaded_file.name}")
-                resized_img.save(resized_path)
                 model = genai.GenerativeModel('gemini-pro-vision')
                 caption = model.generate_content(["Write a caption for the image in english",img])
                 tags=model.generate_content(["Generate 5 hash tags for the image in a line in english",img])
