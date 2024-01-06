@@ -28,6 +28,12 @@ Explore the app [here](https://image-caption-tagger.streamlit.app/).
   ```bash
   streamlit run app.py
 - Enter your Google Studio API key when prompted and upload an image for analysis.
+
+## Dependencies
+- Python 3.10 or above
+- Streamlit
+- PIL (Python Imaging Library)
+- Google Generative AI library
   
 ## Why Use This App?
 - Simplicity: Streamlined interface for effortless image analysis.
@@ -47,8 +53,4 @@ CodeSmith harnesses the power of [Google's Gemini](https://cloud.google.com/gemi
 [LinkedIn](https://www.linkedin.com/in/sgvkamalakar)
 
 
-Dependencies
-Python 3.x
-Streamlit
-PIL (Python Imaging Library)
-Google Generative AI library
+
