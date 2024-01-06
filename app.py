@@ -6,7 +6,8 @@ import google.generativeai as genai
 st.title('Image Captioning and Tagging')
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
-API_KEY = st.text_input("Enter your API Key", type="password")
+
+API_KEY = st.text_input("Enter your API Key:&nbsp;&nbsp; &nbsp;&nbsp; Get your Google Studio API key from [here](https://makersuite.google.com/app/apikey)", type="password")
 if uploaded_file is not None:
     if st.button('Upload'):
         if API_KEY.strip() == '':
@@ -15,32 +16,32 @@ if uploaded_file is not None:
             file_path = os.path.join("static", uploaded_file.name)
             with open(file_path, "wb") as f:
                 f.write(uploaded_file.getvalue())
-
             img = Image.open(file_path)
-            genai.configure(api_key=API_KEY)
-            resized_img = img.resize((600, 420))
-            resized_path = os.path.join("static", f"resized/resized_{uploaded_file.name}")
-            resized_img.save(resized_path)
-
-            # Caption generation
-            model = genai.GenerativeModel('gemini-pro-vision')
-            caption = model.generate_content(["Write a caption for the image in english",img])
-            tags=model.generate_content(["Generate 5 hash tags for the image in a line in english",img])
-            st.image(img, caption=f"Caption: {caption.text}")
-            st.write(f"Tags: {tags.text}")
-import streamlit as st
-
+            try:
+                genai.configure(api_key=API_KEY)
+                resized_img = img.resize((600, 420))
+                resized_path = os.path.join("static", f"resized/resized_{uploaded_file.name}")
+                resized_img.save(resized_path)
+                model = genai.GenerativeModel('gemini-pro-vision')
+                caption = model.generate_content(["Write a caption for the image in english",img])
+                tags=model.generate_content(["Generate 5 hash tags for the image in a line in english",img])
+                st.image(img, caption=f"Caption: {caption.text}")
+                st.write(f"Tags: {tags.text}")
+            except Exception as e:
+                error_msg = str(e)
+                if "API_KEY_INVALID" in error_msg:
+                    st.error("Invalid API Key. Please enter a valid API Key.")
+                else:
+                    st.error(f"Failed to configure API due to {error_msg}")
 footer="""
   <style>
-        /* Links */
         a:link, a:visited {
             color: blue;
-            text-decoration: none; /* Remove underline */
+            text-decoration: dotted; /* Remove underline */
         }
 
         a:hover, a:active {
-            color: red;
-            text-decoration: underline; /* Add underline on hover */
+            color: skyblue;
         }
         .footer .p{
             font-size:10px;
