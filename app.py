@@ -4,7 +4,6 @@ from PIL import Image
 import google.generativeai as genai
 
 st.title('Image Captioning and Tagging')
-AI_AVATAR_ICON = '📸'
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
 API_KEY = st.text_input("Enter your API Key", type="password")
 if uploaded_file is not None:
